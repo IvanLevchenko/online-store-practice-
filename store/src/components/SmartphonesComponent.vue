@@ -21,12 +21,12 @@ export default {
   width: 250px;
   height: 350px;
   border: 1px solid rgb(209, 208, 208);
-  margin: 15px;
+  margin-left: 15px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  // justify-content: space-between;
   cursor: pointer;
 
   .smartphone__img {
@@ -36,11 +36,14 @@ export default {
 
     img {
       width: 80%;
+      margin-top: 10px;
     }
   }
 
   .smartphone__text {
     width: 90%;
+    text-align: center;
+    margin-top: 5px;
   }
 }
 </style>

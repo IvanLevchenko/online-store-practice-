@@ -1,17 +1,72 @@
 <template>
   <div class="filter">
-    
+    <div class="filter__wrapper" v-if="defineFilteredItems == 'Smartphones'">
+      <div class="filter__by-model">
+        <h4>Model:</h4>
+        <p class="filter__by-model_model" 
+        v-for="model of getAllManufacturers" 
+        :key="model.id"
+        > {{ model }} </p>
+      </div>
+    </div>
+    <div class="filter__wrapper" v-if="defineFilteredItems == 'TV'">
+      <div class="filter__by-model">
+        <div class="filter__by-model_model"></div>
+      </div>
+    </div> 
+    <div class="filter__wrapper" v-if="defineFilteredItems == 'Computers'">
+      <div class="filter__by-model">
+        <div class="filter__by-model_model"></div>
+      </div>
+    </div>
   </div>
 </template>
 
-<style scoped>
+<script>
+export default {
+  computed: {
+    defineFilteredItems() {
+      return this.$store.state.filter
+    },
+    getAllManufacturers() {
+      return this.$store.getters.getAllManufacturers
+    }
+  },
+  async mounted() {
+    await this.$store.dispatch('fillManufacturersAction') 
+  }
+}
+</script>
+
+<style lang="scss" scoped>
 * {
   margin: 0;
   padding: 0;
 }
 
 .filter {
+  margin-top: 15px;
   width: 300px;
-  background: #000;
+  min-height: 600px;
+  background: rgb(243, 243, 243);
+  position: relative;
+  border: 1px solid rgb(219, 219, 219);
+  display: flex;
+  justify-content: center;
+
+  .filter__wrapper {
+    width: 90%;
+    height: 90%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .filter__by-model {
+
+      .filter__by-model_model {
+        margin-top: 5px;
+        padding-left: 3px;
+      }
+    }
+  }
 }
 </style>

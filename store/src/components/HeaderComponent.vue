@@ -1,6 +1,6 @@
 <template>
   <header class="home__header">
-      <h2>store</h2>
+      <router-link to="/" tag="h2" >store</router-link>
       <div class="cart">
         <img src="../assets/basket.svg" alt="">
       </div>
@@ -24,12 +24,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px 0 20px;
   font-family: $font;
+
+  h2 {
+    margin-left: 20px;
+    cursor: pointer;
+  }
 
   .cart {
     width: 20px;
     height: 20px;
+    margin-right: 20px;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="home__content">
-      <HomeComponent v-for="product of getHomeProducts" :img="product.img" :title="product.title" :key="product.id"/>
+      <HomeComponent @click.native="clickedPage" v-for="product of getHomeProducts" :img="product.img" :title="product.title" :key="product.id"/>
     </div>
   </div>
 </template>
@@ -20,7 +20,9 @@ export default {
     }
   },
   methods: {
-    
+    clickedPage(e) {
+      this.$store.state.filter = e.target.parentNode.className.split(' ')[1]
+    }
   }
 }
 </script>

@@ -41,17 +41,30 @@ export default new Vuex.Store({
       price: '7 999', manufacturer: 'Xiaomi', img: 'https://i.citrus.ua/imgcache/size_500/uploads/shop/6/5/65d21a5cf0d92c79046e36ae0c60b2a1.jpg',
       info: `Screen (6.55 ", AMOLED, 2400x1080) / Qualcomm Snapdragon 732G (2.3 GHz) / triple main camera: 64 MP + 8 MP + 5 MP, front 16 MP / 
       RAM 6 GB / 64 GB of internal memory / 3G / LTE / GPS / support for 2 SIM cards (Nano-SIM) / Android 11/4250 mAh`}, 
-    ]
+    ],
+    manufacturers: [],
+    filter: ''
   },
   mutations: {
+    mutateManufacturers(state, data) {
+      state.manufacturers = data
+    }
   },
   actions: {
+    async fillManufacturersAction(ctx) {
+      let data = []
+      this.state.smartphonesData.forEach(i => !data.includes(i.manufacturer) ? data.push(i.manufacturer) : null)
+      ctx.commit('mutateManufacturers', data)
+    }
   },
   modules: {
   },
   getters: { 
     getStateHomePageProducts(state) {
       return state.homePageProducts
+    },
+    getAllManufacturers(state) {
+      return state.manufacturers
     }
   }
 })
