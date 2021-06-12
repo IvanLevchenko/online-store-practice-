@@ -43,18 +43,33 @@ export default new Vuex.Store({
       RAM 6 GB / 64 GB of internal memory / 3G / LTE / GPS / support for 2 SIM cards (Nano-SIM) / Android 11/4250 mAh`}, 
     ],
     manufacturers: [],
-    filter: ''
+    filter: `${window.location.href.split('/').reverse()[0]}`,
+    filtered: {
+      models: []
+    }
   },
   mutations: {
     mutateManufacturers(state, data) {
       state.manufacturers = data
+    },
+    mutateFilterByModels(state, data) {
+      let id
+      if(!state.filtered.models.includes(data)) {
+        state.filtered.models.push(data)
+      } else {
+        id = state.filtered.models.indexOf(data)
+        state.filtered.models.splice(id, 1)
+      }
     }
   },
   actions: {
     async fillManufacturersAction(ctx) {
-      let data = []
+      let data = [] 
       this.state.smartphonesData.forEach(i => !data.includes(i.manufacturer) ? data.push(i.manufacturer) : null)
       ctx.commit('mutateManufacturers', data)
+    },
+    filterByModels(ctx, data) {
+      ctx.commit('mutateFilterByModels', data)
     }
   },
   modules: {

@@ -3,10 +3,10 @@
     <div class="filter__wrapper" v-if="defineFilteredItems == 'Smartphones'">
       <div class="filter__by-model">
         <h4>Model:</h4>
-        <p class="filter__by-model_model" 
-        v-for="model of getAllManufacturers" 
+        <p class="filter__by-model_model"
+        v-for="model of getAllManufacturers"
         :key="model.id"
-        > {{ model }} </p>
+        > {{ model }} <input type="checkbox" @click="filterByModel" :id="'filter-by-model-chckbx_' + model"></p>
       </div>
     </div>
     <div class="filter__wrapper" v-if="defineFilteredItems == 'TV'">
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+
 export default {
   computed: {
     defineFilteredItems() {
@@ -30,6 +31,13 @@ export default {
     },
     getAllManufacturers() {
       return this.$store.getters.getAllManufacturers
+    }
+  },
+  methods: {
+    filterByModel(e) {
+      this.$store.dispatch('filterByModels', e.target.id.split('_')[1])
+      console.log(e.target.id.split('_')[1])
+      console.log(this.$store.state.filtered.models)
     }
   },
   async mounted() {
@@ -64,7 +72,7 @@ export default {
 
       .filter__by-model_model {
         margin-top: 5px;
-        padding-left: 3px;
+        padding-left: 5px;
       }
     }
   }

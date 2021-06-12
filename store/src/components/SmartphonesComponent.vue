@@ -1,9 +1,9 @@
 <template>
-  <div class="smartphone">
+  <div class="smartphone" v-if="this.$store.state.filtered.models.includes(man) || !this.$store.state.filtered.models.length">
     <div class="smartphone__img">
       <img :src="img" alt="">
     </div>
-    <div class="smartphone__text"> {{ text }} </div>
+    <div class="smartphone__text">{{ text }}</div>
   </div>
 </template>
 
@@ -11,7 +11,8 @@
 export default {
   props: {
     img: String,
-    text: String
+    text: String,
+    man: String
   }
 }
 </script>

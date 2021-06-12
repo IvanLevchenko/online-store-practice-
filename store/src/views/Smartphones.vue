@@ -4,7 +4,7 @@
       <FilterComponent/>
     </div>
     <div class="smartphones__body">
-      <SmartphonesComponent v-for="phone of getAllSmatrphones" :text="phone.model" :img="phone.img" :key="phone.id"/>
+      <SmartphonesComponent v-for="phone of getAllSmatrphones" :man="phone.manufacturer" :text="phone.model" :img="phone.img" :key="phone.id"/>
     </div>
   </div>
 </template>
@@ -12,6 +12,7 @@
 <script>
 import SmartphonesComponent from '../components/SmartphonesComponent'
 import FilterComponent from '../components/Filter'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -21,8 +22,15 @@ export default {
   computed: {
     getAllSmatrphones() {
       return this.$store.state.smartphonesData
-    }
+    },
+    ...mapState(['smartphonesData'])
   },
+  watch: {
+    smartphonesData(newValue, oldValue) {
+      console.log(`Updating from ${oldValue} to ${newValue}`);
+    }
+  }
+  
 }
 </script>
 
@@ -40,6 +48,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     max-width: 1350px;
+    min-width: 71%;
   }
 }
 </style>
