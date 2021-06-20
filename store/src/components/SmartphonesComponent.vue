@@ -1,6 +1,12 @@
 <template>
-  <div class="smartphone" v-if="this.$store.state.filtered.models.includes(man) || !this.$store.state.filtered.models.length">
-    <div class="smartphone__img">
+  <div class="smartphone" v-if="(this.$store.state.filtered.models.includes(man) 
+                                || !(this.$store.state.filtered.models.length))
+                                && (isGreaterPrice || this.$store.state.filtered.price == 0)
+                                && (this.$store.state.filtered.size.includes(size) 
+                                || !this.$store.state.filtered.size.length)
+                                && (this.$store.state.filtered.memory.includes(memory)
+                                || !this.$store.state.filtered.memory.length)">
+    <div class="smartphone__img"> 
       <img :src="img" alt="">
     </div>
     <div class="smartphone__text">{{ text }}</div>
@@ -12,7 +18,18 @@ export default {
   props: {
     img: String,
     text: String,
-    man: String
+    man: String,
+    price: String,
+    size: String,
+    memory: String
+  },
+  computed: {
+    isGreaterPrice() {
+      return +this.$store.state.filtered.price >= +this.price.split(' ').join('')
+    },
+    isNeededSize() {
+      return this.$store.state.filtered.size
+    }
   }
 }
 </script>

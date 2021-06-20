@@ -45,7 +45,10 @@ export default new Vuex.Store({
     manufacturers: [],
     filter: `${window.location.href.split('/').reverse()[0]}`,
     filtered: {
-      models: []
+      models: [],
+      price: 0,
+      size: [],
+      memory: []
     }
   },
   mutations: {
@@ -60,6 +63,24 @@ export default new Vuex.Store({
         id = state.filtered.models.indexOf(data)
         state.filtered.models.splice(id, 1)
       }
+    },
+    mutateFilterByDisplaySize(state, data) {
+      let id
+      if(!state.filtered.size.includes(data)) {
+        state.filtered.size.push(data)
+      } else {
+        id = state.filtered.size.indexOf(data)
+        state.filtered.size.splice(id, 1)
+      }
+    },
+    mutateFilterByMemory(state, data) {
+      let id
+      if(!state.filtered.memory.includes(data)) {
+        state.filtered.memory.push(data)
+      } else {
+        id = state.filtered.memory.indexOf(data)
+        state.filtered.memory.splice(id, 1)
+      }
     }
   },
   actions: {
@@ -70,6 +91,12 @@ export default new Vuex.Store({
     },
     filterByModels(ctx, data) {
       ctx.commit('mutateFilterByModels', data)
+    },
+    filterByDisplaySize(ctx, data) {
+      ctx.commit('mutateFilterByDisplaySize', data)
+    },
+    filterByMemory(ctx, data) {
+      ctx.commit('mutateFilterByMemory', data)
     }
   },
   modules: {
@@ -80,6 +107,46 @@ export default new Vuex.Store({
     },
     getAllManufacturers(state) {
       return state.manufacturers
+    },
+    getMinAndMaxPrice(state) {
+      let min = 0
+      let max = 0
+
+      state.smartphonesData.forEach(i => {
+        if(+(i.price.split(' ').join('')) > max) max = +(i.price.split(' ').join(''))
+        if(+(i.price.split(' ').join('')) < min) min = +(i.price.split(' ').join(''))
+      })
+      
+      return [min, max]
+    },
+    getDisplaySizes(state) {
+      let displays = new Set()
+      for(let i = 0; i < state.smartphonesData.length; i++) {
+        displays.add(state.smartphonesData[i].info
+          .split('/')
+          .find(i => i.match(/\d{4}x\d{4}/) || i.match(/\d{4}x\d{3}/)
+          .join(''))
+          .split(',')
+          .find(i => i.match(/\d{4}x\d{4}/) || i.match(/\d{4}x\d{3}/))
+          .trim()
+          .split(')')[0]
+        )
+      } 
+      return displays   
+    },
+    getMemory(state) {
+      let memory = new Set()
+      for(let i = 0; i < state.smartphonesData.length; i++) {
+        memory.add(state.smartphonesData[i].info
+          .split(',')
+          .find(e => e.match(/\d* GB of internal memory/))
+          .split(' / ')
+          .find(e => e.match(/\d* GB of internal memory/))
+          .split(' ') 
+          .find(e => e.match(/\d+/)) 
+        )
+      }
+      return memory
     }
   }
 })
