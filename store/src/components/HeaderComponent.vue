@@ -1,11 +1,21 @@
 <template>
   <header class="home__header">
       <router-link to="/" tag="h2" >store</router-link>
-      <div class="cart">
+      <div class="basket-icon" @click="showBasket">
         <img src="../assets/basket.svg" alt="">
       </div>
   </header>
 </template>
+
+<script>
+export default {
+  methods: {
+    showBasket() {
+      this.$emit('open-basket')
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Goblin+One&display=swap');
@@ -31,10 +41,11 @@
     cursor: pointer;
   }
 
-  .cart {
+  .basket-icon {
     width: 20px;
     height: 20px;
     margin-right: 20px;
+    cursor: pointer;
   }
 }
 </style>

@@ -41,6 +41,7 @@
           </ul>
         </div>
       </div>
+      <p class="clear-filter" @click="clearFilters">Clear filters</p>
     </div>
     <div class="filter__wrapper" v-if="defineFilteredItems == 'TV'">
       <div class="filter__by-model">
@@ -97,7 +98,21 @@ export default {
     inputPrice() {
       this.$store.state.filtered.price = document.querySelector('.price-window').value
     },
-
+    clearFilters() {
+      for(let [key, value] of Object.entries(this.$store.state.filtered)) {
+        console.log(`${key}: ${value}`)
+        if(typeof key == 'number') {
+          value = 0
+        } else {
+          value = [] 
+        }
+        console.log(`${key}: ${value}`)
+      }
+      console.log(
+        this.$store.state.filtered
+      )
+      this.$router.go(0)
+    }
   },
   async mounted() {
     await this.$store.dispatch('fillManufacturersAction')
@@ -176,6 +191,18 @@ export default {
           margin: 5px;
           list-style-type: none;
         }
+      }
+    }
+
+    .clear-filter {
+      color: red;
+      cursor: pointer;
+      text-align: right;
+      position: relative;
+      bottom: 0;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
   }

@@ -49,7 +49,8 @@ export default new Vuex.Store({
       price: 0,
       size: [],
       memory: []
-    }
+    },
+    basket: []
   },
   mutations: {
     mutateManufacturers(state, data) {

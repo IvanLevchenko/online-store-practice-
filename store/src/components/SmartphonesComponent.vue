@@ -10,6 +10,10 @@
       <img :src="img" alt="">
     </div>
     <div class="smartphone__text">{{ text }}</div>
+    <div class="smartphone__footer">
+      <span class="smartphone__price">{{ price }}₴</span>
+      <span class="smartphone__basket" @click="addToBasket"></span>
+    </div>
   </div>
 </template>
 
@@ -30,6 +34,19 @@ export default {
     isNeededSize() {
       return this.$store.state.filtered.size
     }
+  },
+  methods: {
+    addToBasket() {
+      let data = {
+        text: this.text,
+        price: this.price,
+        img: this.img
+      }
+      !this.$store.state.basket.includes(data)
+      ? this.$store.state.basket.push(data)
+      : null
+      this.$store.state.basket.map((e, i)=> e.index = i)
+    }
   }
 }
 </script>
@@ -37,7 +54,7 @@ export default {
 <style lang="scss" scoped>
 .smartphone {
   width: 250px;
-  height: 350px;
+  height: 370px;
   border: 1px solid rgb(209, 208, 208);
   margin-left: 15px;
   margin-top: 15px;
@@ -53,7 +70,7 @@ export default {
     justify-content: center;
 
     img {
-      width: 80%;
+      width: 75%;
       margin-top: 10px;
     }
   }
@@ -62,6 +79,36 @@ export default {
     width: 90%;
     text-align: center;
     margin-top: 5px;
+  }
+  
+  .smartphone__footer {
+    display: flex;
+    align-self: flex-end;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .smartphone__price {
+      padding: 5px;
+      background: rgb(114, 228, 114);
+      color: white;
+      border-radius: 5px;
+      position: relative;
+      margin-left: 15px;
+    }
+
+    .smartphone__basket {
+      width: 25px;
+      height: 25px;
+      background-image: url(../assets/basket.svg);
+      background-repeat: no-repeat;
+      position: relative;
+      margin-right: 15px;
+
+      &:hover {
+        background-position: 0 -1px;
+      }
+    }
   }
 }
 </style>

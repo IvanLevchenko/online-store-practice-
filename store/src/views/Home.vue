@@ -37,10 +37,14 @@ export default {
   box-sizing: border-box;
 }
 
-.home__content {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+.home {
+  overflow: hidden;
+
+  .home__content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 
 </style>
