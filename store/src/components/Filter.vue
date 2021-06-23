@@ -11,7 +11,7 @@
       <div class="filter__by-price">
         <br>
         <h4>Price <i>(₴)</i></h4>
-        <input type="range" @input="updatePrice" class="filter__range" :step="getPrices[1] / 15" :min="getPrices[0]" :max="getPrices[1]">
+        <input type="range" @input="updateSmartphonePrice" class="filter__range" :step="getSmartphonePrices[1] / 15" :min="getSmartphonePrices[0]" :max="getSmartphonePrices[1]">
         <input type="text" class="price-window" @keyup.enter="inputPrice" :value="price()">
 
       </div>
@@ -45,8 +45,26 @@
     </div>
     <div class="filter__wrapper" v-if="defineFilteredItems == 'TV'">
       <div class="filter__by-model">
-        <div class="filter__by-model_model"></div>
+        <h4>Model:</h4>
+        <p class="filter__by-model_model"
+          v-for="model of getTVModels"
+          :key="model"
+        >
+        {{ model }} 
+        <input type="checkbox" name="" 
+          :id="'filter-by-model-chckbx_' + model"
+          @click="filterTVByModel"
+        >
+        </p>
       </div>
+      <div class="filter__by-price">
+        <br>
+        <h4>Price <i>(₴)</i></h4>
+        <input type="range" @input="updateTVPrice" class="filter__range" :step="getTVPrices[1] / 10" :min="getTVPrices[0]" :max="getTVPrices[1]">
+        <input type="text" class="price-window" @keyup.enter="inputPrice" :value="price()">
+      </div>
+      <div class="filter__by-screen-diagonal"></div>
+      <div class="filter__by-resolution"></div>
     </div> 
     <div class="filter__wrapper" v-if="defineFilteredItems == 'Computers'">
       <div class="filter__by-model">
@@ -66,19 +84,30 @@ export default {
     getAllManufacturers() {
       return this.$store.getters.getAllManufacturers
     },
-    getPrices() {
-      return this.$store.getters.getMinAndMaxPrice
+    getSmartphonePrices() {
+      return this.$store.getters.getSmartphonePrices
     },
     getDisplaySizes() {
       return this.$store.getters.getDisplaySizes
     },
     getMemory() {
       return this.$store.getters.getMemory
+    },
+    getTVModels() {
+      return this.$store.getters.getTVModels
+    },
+    getTVPrices() {
+      return this.$store.getters.getTVPrices
     }
   },
   methods: {
     filterByModel(e) {
       this.$store.dispatch('filterByModels', e.target.id.split('_')[1])
+    },
+    filterTVByModel(e) {
+      this.$store.dispatch('filterTVByModel', e.target.id.split('_')[1])
+      console.log(e.target.id.split('_')[1])
+      console.log(this.$store.state.filtered.models)
     },
     filterByDisplaySize(e) {
       this.$store.dispatch('filterByDisplaySize', e.target.id.split('_')[1])
@@ -91,7 +120,11 @@ export default {
         document.querySelector('.filter__range').value
       }, 0)
     },
-    updatePrice() {
+    updateSmartphonePrice() {
+      document.querySelector('.price-window').value = (+(document.querySelector('.filter__range').value)).toFixed()
+      this.$store.state.filtered.price = +(document.querySelector('.price-window').value)
+    },
+    updateTVPrice() {
       document.querySelector('.price-window').value = (+(document.querySelector('.filter__range').value)).toFixed()
       this.$store.state.filtered.price = +(document.querySelector('.price-window').value)
     },
@@ -114,7 +147,12 @@ export default {
       this.$router.go(0)
     }
   },
-  async mounted() {
+  watch: {
+    '$route' (to, from) {
+      alert('called it', to, from);
+    }
+  },
+  async mounted() { 
     await this.$store.dispatch('fillManufacturersAction')
   }
 }

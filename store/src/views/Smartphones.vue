@@ -96,11 +96,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-
-  .smartphones__filter {
-    
-  }
-
+  
   .smartphones__body {
     display: flex;
     flex-wrap: wrap;

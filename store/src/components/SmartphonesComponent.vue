@@ -1,11 +1,14 @@
 <template>
-  <div class="smartphone" @click="showSmartphoneModal" v-if="(this.$store.state.filtered.models.includes(man) 
-                                || !(this.$store.state.filtered.models.length))
-                                && (isGreaterPrice || this.$store.state.filtered.price == 0)
-                                && (this.$store.state.filtered.size.includes(size) 
-                                || !this.$store.state.filtered.size.length)
-                                && (this.$store.state.filtered.memory.includes(memory)
-                                || !this.$store.state.filtered.memory.length)">
+  <div class="smartphone" 
+    @click="showSmartphoneModal" 
+    v-if="(this.$store.state.filtered.models.includes(man) 
+    || !(this.$store.state.filtered.models.length))
+    && (isGreaterPrice || this.$store.state.filtered.price == 0)
+    && (this.$store.state.filtered.size.includes(size) 
+    || !this.$store.state.filtered.size.length)
+    && (this.$store.state.filtered.memory.includes(memory)
+    || !this.$store.state.filtered.memory.length)"
+    >
     <div class="smartphone__img"> 
       <img :src="img" alt="">
     </div>

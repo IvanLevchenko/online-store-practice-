@@ -9,7 +9,11 @@
           <div class="basket__item" v-for="product of getBasketProducts" :key="product.index">
             <img :src="product.img" alt="">
             <div class="basket__item-text">
-              {{ product.text }} 
+              {{ product.text }} <br>
+              <br>
+              <span class="basket__item-price">
+                {{ product.price }}
+              </span>
             </div>
             <span class="delete-item" :id="product.index" @click="deleteBasketItem">✖</span>
           </div>
@@ -69,7 +73,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Goblin+One&display=swap');
 @import './assets/variables.scss';
 
@@ -123,6 +127,13 @@ html {
             width: 60%;
             height: 80%;
             margin-left: 5px;
+
+            .basket__item-price {
+              padding: 5px;
+              background: rgb(114, 228, 114);
+              color: white;
+              border-radius: 5px;
+            }
           }
 
           img {

@@ -42,6 +42,20 @@ export default new Vuex.Store({
       info: `Screen (6.55 ", AMOLED, 2400x1080) / Qualcomm Snapdragon 732G (2.3 GHz) / triple main camera: 64 MP + 8 MP + 5 MP, front 16 MP / 
       RAM 6 GB / 64 GB of internal memory / 3G / LTE / GPS / support for 2 SIM cards (Nano-SIM) / Android 11/4250 mAh`}, 
     ],
+    TVData: [
+      { id: 1, model: 'LG 49NANO806NA', price: '19 999', manufacturer: 'LG', 
+      img: 'https://content2.rozetka.com.ua/goods/images/big/183197151.jpg', 
+      resolution: '3840x2160', screenDiagonal: '49"' },
+      { id: 2, model: 'Samsung UE32T5300AUXUA', price: '9 199', manufacturer: 'Samsung',
+      img: 'https://content.rozetka.com.ua/goods/images/big/174793070.jpg', 
+      resolution: '1920x1080', screenDiagonal: '32"' },
+      { id: 3, model: 'Samsung QE50Q60TAUXUA', price: '22 499', manufacturer: 'Samsung',
+      img: 'https://content.rozetka.com.ua/goods/images/big/179411663.jpg', 
+      resolution: '3840x2160', screenDiagonal: '50"' },
+      { id: 4, model: 'Xiaomi Mi TV UHD 4S 50" (L50M5-5ARU)', price: '11 999', manufacturer: 'Xiaomi',
+      img: 'https://content2.rozetka.com.ua/goods/images/big/29711927.jpg', 
+      resolution: '3840x2160', screenDiagonal: '50"' }
+    ],
     manufacturers: [],
     filter: `${window.location.href.split('/').reverse()[0]}`,
     filtered: {
@@ -82,6 +96,15 @@ export default new Vuex.Store({
         id = state.filtered.memory.indexOf(data)
         state.filtered.memory.splice(id, 1)
       }
+    },
+    mutateFilterTVByModel(state, data) {
+      let id
+      if(!state.filtered.models.includes(data)) {
+        state.filtered.models.push(data)
+      } else {
+        id = state.filtered.models.indexOf(data)
+        state.filtered.models.splice(id, 1)
+      }
     }
   },
   actions: {
@@ -98,6 +121,9 @@ export default new Vuex.Store({
     },
     filterByMemory(ctx, data) {
       ctx.commit('mutateFilterByMemory', data)
+    },
+    filterTVByModel(ctx, data) {
+      ctx.commit('mutateFilterTVByModel', data)
     }
   },
   modules: {
@@ -109,7 +135,7 @@ export default new Vuex.Store({
     getAllManufacturers(state) {
       return state.manufacturers
     },
-    getMinAndMaxPrice(state) {
+    getSmartphonePrices(state) {
       let min = 0
       let max = 0
 
@@ -148,6 +174,24 @@ export default new Vuex.Store({
         )
       }
       return memory
+    },
+    getTVModels(state) {
+      let models = new Set()
+
+      state.TVData.forEach(e => models.add(e.model.split(' ')[0]))
+
+      return models 
+    },
+    getTVPrices(state) {
+      let min = 0
+      let max = 0
+
+      state.TVData.forEach(i => {
+        if(+(i.price.split(' ').join('')) > max) max = +(i.price.split(' ').join(''))
+        if(+(i.price.split(' ').join('')) < min) min = +(i.price.split(' ').join(''))
+      })
+      
+      return [min, max]
     }
   }
 })
