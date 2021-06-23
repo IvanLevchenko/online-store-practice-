@@ -16,6 +16,7 @@
         </div>
       </div>
     </div>
+
     <router-view/>
   </div>
 </template>
@@ -63,7 +64,8 @@ export default {
     getBasketProducts() {
       return this.$store.state.basket
     }
-  }
+  },
+  
 }
 </script>
 

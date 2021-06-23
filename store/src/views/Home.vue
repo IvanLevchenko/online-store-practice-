@@ -1,7 +1,11 @@
 <template>
   <div class="home">
     <div class="home__content">
-      <HomeComponent @click.native="clickedPage" v-for="product of getHomeProducts" :img="product.img" :title="product.title" :key="product.id"/>
+      <HomeComponent @click.native="clickedPage" v-for="product of getHomeProducts" 
+        :img="product.img" 
+        :title="product.title" 
+        :key="product.id"
+      />
     </div>
   </div>
 </template>
@@ -38,7 +42,7 @@ export default {
 }
 
 .home {
-  overflow: hidden;
+  overflow-x: hidden;
 
   .home__content {
     width: 100%;

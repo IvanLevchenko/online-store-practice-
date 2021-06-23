@@ -1,5 +1,5 @@
 <template>
-  <div class="smartphone" v-if="(this.$store.state.filtered.models.includes(man) 
+  <div class="smartphone" @click="showSmartphoneModal" v-if="(this.$store.state.filtered.models.includes(man) 
                                 || !(this.$store.state.filtered.models.length))
                                 && (isGreaterPrice || this.$store.state.filtered.price == 0)
                                 && (this.$store.state.filtered.size.includes(size) 
@@ -25,7 +25,9 @@ export default {
     man: String,
     price: String,
     size: String,
-    memory: String
+    memory: String,
+    manufacturer: String,
+    id: Number
   },
   computed: {
     isGreaterPrice() {
@@ -33,7 +35,7 @@ export default {
     },
     isNeededSize() {
       return this.$store.state.filtered.size
-    }
+    },
   },
   methods: {
     addToBasket() {
@@ -46,6 +48,21 @@ export default {
       ? this.$store.state.basket.push(data)
       : null
       this.$store.state.basket.map((e, i)=> e.index = i)
+    },
+    showSmartphoneModal(e) {
+      if(e.target.className !== 'smartphone__basket') {
+        let data = {
+          id: this.id,
+          img: this.img,
+          info: this.text,
+          price: this.price,
+          size: this.size,
+          memory: this.memory,
+          manufacturer: this.manufacturer,
+          show: true
+        }
+        this.$emit('show-modal', data)
+      }
     }
   }
 }
