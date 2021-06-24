@@ -56,13 +56,38 @@ export default new Vuex.Store({
       img: 'https://content2.rozetka.com.ua/goods/images/big/29711927.jpg', 
       resolution: '3840x2160', screenDiagonal: '50"' }
     ],
+    computerData: [
+      { id: 1, model: 'ARTLINE Gaming X39 v38', price: '19 999',
+        RAM: 16, videoCard: 'GeForce GTX 1050 Ti', CPU: 'Intel Core i5-9500F (3.0 - 4.4 GHz)',
+        country: 'Ukraine', img: 'https://content.rozetka.com.ua/goods/images/big/16928474.jpg',
+        type: 'For gaming' },
+      { id: 2, model: 'QUBE i5 9500F GTX 1660 SUPER 6GB 1641', price: '29 999',
+        RAM: 16, videoCard: 'GeForce GTX 1660 Super', CPU: 'Intel Core i5-9500F (3.0 - 4.4 GHz)',
+        country: 'Ukraine', img: 'https://content1.rozetka.com.ua/goods/images/big/179874566.jpg',
+        type: 'For gaming' },
+      { id: 3, model: 'Asus Zen AiO 24 F5401WUAK-WA035T White', price: '22 599',
+        RAM: 8, videoCard: 'AMD Radeon Graphics', CPU: 'AMD Ryzen 5 5500U (2.1 - 4.0 GHz)',
+        country: 'China', img: 'https://content2.rozetka.com.ua/goods/images/big/172721352.jpg',
+        type: 'For business' },
+      { id: 4, model: 'Apple iMac 24" М1 4.5К 256GB Blue', price: '49 999',
+        RAM: 8, videoCard: 'Apple M1 Graphics', CPU: 'Apple M1',
+        country: 'China', img: 'https://content1.rozetka.com.ua/goods/images/big/176926071.jpg',
+        type: 'For business' }
+    ],
     manufacturers: [],
     filter: `${window.location.href.split('/').reverse()[0]}`,
     filtered: {
       models: [],
       price: 0,
       size: [],
-      memory: []
+      memory: [],
+      diagonals: [],
+      resolution: [],
+      ram: [],
+      videoCards: [],
+      cpu: [],
+      country: [],
+      type: []
     },
     basket: []
   },
@@ -105,8 +130,80 @@ export default new Vuex.Store({
         id = state.filtered.models.indexOf(data)
         state.filtered.models.splice(id, 1)
       }
+    },
+    mutateFilterTVByDiagonal(state, data) {
+      let id
+      if(!state.filtered.diagonals.includes(data)) {
+        state.filtered.diagonals.push(data)
+      } else {
+        id = state.filtered.diagonals.indexOf(data)
+        state.filtered.diagonals.splice(id, 1)
+      }
+    },
+    mutateFilterTVByResolution(state, data) {
+      let id
+      if(!state.filtered.resolution.includes(data)) {
+        state.filtered.resolution.push(data)
+      } else {
+        id = state.filtered.resolution.indexOf(data)
+        state.filtered.resolution.splice(id, 1)
+      }
+    },
+    mutateFilterComputersByModel(state, data) {
+      let id
+      if(!state.filtered.models.includes(data)) {
+        state.filtered.models.push(data)
+      } else {
+        id = state.filtered.models.indexOf(data)
+        state.filtered.models.splice(id, 1)
+      }
+    },
+    mutateFilterComputersByRam(state, data) {
+      let id
+      if(!state.filtered.ram.includes(data)) {
+        state.filtered.ram.push(data)
+      } else {
+        id = state.filtered.ram.indexOf(data)
+        state.filtered.ram.splice(id, 1)
+      }
+    },
+    mutateFilterComputersByVideocard(state, data) {
+      let id
+      if(!state.filtered.videoCards.includes(data)) {
+        state.filtered.videoCards.push(data)
+      } else {
+        id = state.filtered.videoCards.indexOf(data)
+        state.filtered.videoCards.splice(id, 1)
+      }
+    },
+    mutateFilterComputersByCPU(state, data) {
+      let id
+      if(!state.filtered.cpu.includes(data)) {
+        state.filtered.cpu.push(data)
+      } else {
+        id = state.filtered.cpu.indexOf(data)
+        state.filtered.cpu.splice(id, 1)
+      }
+    },
+    mutateFilterComputersByCountries(state, data) {
+      let id
+      if(!state.filtered.country.includes(data)) {
+        state.filtered.country.push(data)
+      } else {
+        id = state.filtered.country.indexOf(data)
+        state.filtered.country.splice(id, 1)
+      }
+    },
+    mutateFilterComputersByTypes(state, data) {
+      let id
+      if(!state.filtered.type.includes(data)) {
+        state.filtered.type.push(data)
+      } else {
+        id = state.filtered.type.indexOf(data)
+        state.filtered.type.splice(id, 1)
+      }
     }
-  },
+   },
   actions: {
     async fillManufacturersAction(ctx) {
       let data = [] 
@@ -124,9 +221,31 @@ export default new Vuex.Store({
     },
     filterTVByModel(ctx, data) {
       ctx.commit('mutateFilterTVByModel', data)
+    },
+    filterTVByDiagonal(ctx, data) {
+      ctx.commit('mutateFilterTVByDiagonal', data)
+    },
+    filterTVByResolution(ctx, data) {
+      ctx.commit('mutateFilterTVByResolution', data)
+    },
+    filterComputersByModel(ctx, data) {
+      ctx.commit('mutateFilterComputersByModel', data)
+    },
+    filterComputersByRam(ctx, data) {
+      ctx.commit('mutateFilterComputersByRam', data)
+    },
+    filterComputersByVideocard(ctx, data) {
+      ctx.commit('mutateFilterComputersByVideocard', data)
+    },
+    filterComputersByCPU(ctx, data) {
+      ctx.commit('mutateFilterComputersByCPU', data)
+    },
+    filterComputersByCountries(ctx, data) {
+      ctx.commit('mutateFilterComputersByCountries', data)
+    },
+    filterComputersByTypes(ctx, data) {
+      ctx.commit('mutateFilterComputersByTypes', data)
     }
-  },
-  modules: {
   },
   getters: { 
     getStateHomePageProducts(state) {
@@ -192,6 +311,73 @@ export default new Vuex.Store({
       })
       
       return [min, max]
+    },
+    getTVDiagonals(state) {
+      let diagonals = new Set() 
+
+      state.TVData.forEach(e => diagonals.add(e.screenDiagonal))
+
+      return diagonals
+    },
+    getTVResolutions(state) {
+      let resolutions = new Set()
+
+      state.TVData.forEach(e => resolutions.add(e.resolution))
+
+      return resolutions
+    },
+    getPCModels(state) {
+      let models = new Set()
+
+      state.computerData.forEach(e => models.add(e.model.split(' ')[0]))
+
+      return models
+    },
+    getComputerPrices(state) {
+      let min = 0
+      let max = 0
+
+      state.computerData.forEach(i => {
+        if(+(i.price.split(' ').join('')) > max) max = +(i.price.split(' ').join(''))
+        if(+(i.price.split(' ').join('')) < min) min = +(i.price.split(' ').join(''))
+      })
+      
+      return [min, max]
+    },
+    getComputersRam(state) {
+      let ram = new Set()
+
+      state.computerData.forEach(e => ram.add(e.RAM))
+
+      return ram
+    },
+    getVideocards(state) {
+      let videocards = new Set()
+
+      state.computerData.forEach(e => videocards.add(e.videoCard))
+
+      return videocards
+    },
+    getCPUs(state) {
+      let cpu = new Set()
+
+      state.computerData.forEach(e => cpu.add(e.CPU.split(' ')[0]))
+
+      return cpu
+    },
+    getCountries(state) {
+      let countries = new Set()
+
+      state.computerData.forEach(e => countries.add(e.country))
+
+      return countries
+    },
+    getTypes(state) {
+      let types = new Set()
+
+      state.computerData.forEach(e => types.add(e.type))
+
+      return types
     }
   }
 })

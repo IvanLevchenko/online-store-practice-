@@ -41,7 +41,6 @@
           </ul>
         </div>
       </div>
-      <p class="clear-filter" @click="clearFilters">Clear filters</p>
     </div>
     <div class="filter__wrapper" v-if="defineFilteredItems == 'TV'">
       <div class="filter__by-model">
@@ -63,14 +62,124 @@
         <input type="range" @input="updateTVPrice" class="filter__range" :step="getTVPrices[1] / 10" :min="getTVPrices[0]" :max="getTVPrices[1]">
         <input type="text" class="price-window" @keyup.enter="inputPrice" :value="price()">
       </div>
-      <div class="filter__by-screen-diagonal"></div>
-      <div class="filter__by-resolution"></div>
+      <div class="filter__by-screen-diagonal">
+        <h4>Screen diagonal:</h4>
+        <p class="filter__by-screen-diagonal_diagonal"
+          v-for="diagonal of getTVDiagonals"
+          :key="diagonal"
+        >
+        {{ diagonal }} 
+        <input type="checkbox" name="" 
+          :id="'filter-by-model-chckbx_' + diagonal"
+          @click="filterTVByDiagonal"
+        >
+        </p>
+      </div>
+      <div class="filter__by-resolution">
+        <h4>Resolution:</h4>
+        <p class="filter__by-resolution_resolution"
+          v-for="resolution of getTVResolutions"
+          :key="resolution"
+        >
+        {{ resolution }}
+        <input type="checkbox" name="" 
+          :id="'filter-by-model-chckbx_' + resolution"
+          @click="filterTVByResolution"
+        >
+        </p>
+      </div>
     </div> 
     <div class="filter__wrapper" v-if="defineFilteredItems == 'Computers'">
       <div class="filter__by-model">
-        <div class="filter__by-model_model"></div>
+        <h4>Model:</h4>
+        <p class="filter__by-model_model"
+          v-for="model of getComputerModels"
+          :key="model"
+        >
+        {{ model }}
+        <input type="checkbox" name="" 
+        :id="'filter-by-model-chckbx_' + model"
+        @click="filterComputersByModel"
+        >
+        </p>
+      </div>
+      <div class="filter__by-price">
+        <br>
+        <h4>Price <i>(₴)</i></h4>
+        <input type="range" 
+        @input="updateComputersPrice" 
+        class="filter__range" 
+        :step="getComputerPrices[1] / 10" 
+        :min="getComputerPrices[0]" 
+        :max="getComputerPrices[1]">
+        <input type="text" class="price-window" @keyup.enter="inputPrice" :value="price()">
+      </div>
+      <div class="filter__by-ram">
+        <h4>RAM:</h4>
+        <p class="filter__by-ram_ram"
+          v-for="ram of getComputersRam"
+          :key="ram"
+        >
+        {{ ram }}
+        <input type="checkbox" name="" 
+        :id="'filter-by-ram-chckbx_' + ram" 
+        @click="filterComputersByRam">
+        </p>
+      </div>
+      <div class="filter__by-videocard">
+        <h4>Graphics chipsets:</h4>
+        <p class="filter__by-videocard_videocard"
+          v-for="videocard of getVideocards"
+          :key="videocard"
+        >
+        {{ videocard }}
+        <input type="checkbox" name="" 
+        :id="'filter-by-videocard-chckbx_' + videocard"
+        @click="filterComputersByVideocard"
+        >
+        </p>
+      </div>
+      <div class="filter__by-cpu">
+        <h4>CPU developer:</h4>
+        <p class="filter__by-cpu_cpu"
+          v-for="CPU of getCPUs"
+          :key="CPU"
+        >
+        {{ CPU }}
+        <input type="checkbox" name="" 
+        :id="'filter-by-cpu-chckbx_' + CPU"
+        @click="filterComputersByCPU"
+        >
+        </p>
+      </div>
+      <div class="filter__by-country">
+        <h4>Country:</h4>
+        <p class="filter__by-country_country"
+          v-for="country of getCountries"
+          :key="country"
+        >
+        {{ country }}
+        <input type="checkbox" name="" 
+        :id="'filter-by-cpu-chckbx_' + country"
+        @click="filterComputersByCountries"
+        >
+        </p>
+      </div>
+      <div class="filter__by-type">
+        <h4>Type:</h4>
+        <p class="filter__by-type_type"
+          v-for="type of getTypes"
+          :key="type"
+        >
+        {{ type }}
+        <input type="checkbox" name="" 
+        :id="'filter-by-type-chckbx_' + type"
+        @click="filterComputersByTypes"
+        >
+        </p>
       </div>
     </div>
+    <p class="clear-filter" @click="clearFilters">Clear filters</p>
   </div>
 </template>
 
@@ -90,6 +199,12 @@ export default {
     getDisplaySizes() {
       return this.$store.getters.getDisplaySizes
     },
+    getComputerPrices() {
+      return this.$store.getters.getComputerPrices
+    },
+    getComputersRam() {
+      return this.$store.getters.getComputersRam
+    },
     getMemory() {
       return this.$store.getters.getMemory
     },
@@ -98,6 +213,27 @@ export default {
     },
     getTVPrices() {
       return this.$store.getters.getTVPrices
+    },
+    getTVDiagonals() {
+      return this.$store.getters.getTVDiagonals
+    },
+    getTVResolutions() {
+      return this.$store.getters.getTVResolutions
+    },
+    getComputerModels() {
+      return this.$store.getters.getPCModels
+    },
+    getVideocards() {
+      return this.$store.getters.getVideocards
+    },
+    getCPUs() {
+      return this.$store.getters.getCPUs
+    },
+    getCountries() {
+      return this.$store.getters.getCountries
+    },
+    getTypes() {
+      return this.$store.getters.getTypes
     }
   },
   methods: {
@@ -115,12 +251,40 @@ export default {
     filterByMemory(e) {
       this.$store.dispatch('filterByMemory', e.target.id.split('_')[1])
     },
+    filterTVByDiagonal(e) {
+      this.$store.dispatch('filterTVByDiagonal', e.target.id.split('_')[1])
+    },
+    filterTVByResolution(e) {
+      this.$store.dispatch('filterTVByResolution', e.target.id.split('_')[1])
+    },
+    filterComputersByModel(e) {
+      this.$store.dispatch('filterComputersByModel', e.target.id.split('_')[1])
+    },
+    filterComputersByRam(e) {
+      this.$store.dispatch('filterComputersByRam', e.target.id.split('_')[1])
+    },
+    filterComputersByVideocard(e) {
+      this.$store.dispatch('filterComputersByVideocard', e.target.id.split('_')[1])
+    },
+    filterComputersByCPU(e) {
+      this.$store.dispatch('filterComputersByCPU', e.target.id.split('_')[1])
+    }, 
+    filterComputersByCountries(e) {
+      this.$store.dispatch('filterComputersByCountries', e.target.id.split('_')[1])
+    },
+    filterComputersByTypes(e) {
+      this.$store.dispatch('filterComputersByTypes', e.target.id.split('_')[1])
+    },
     price() {
       return setTimeout(() => {
         document.querySelector('.filter__range').value
       }, 0)
     },
     updateSmartphonePrice() {
+      document.querySelector('.price-window').value = (+(document.querySelector('.filter__range').value)).toFixed()
+      this.$store.state.filtered.price = +(document.querySelector('.price-window').value)
+    },
+    updateComputersPrice() {
       document.querySelector('.price-window').value = (+(document.querySelector('.filter__range').value)).toFixed()
       this.$store.state.filtered.price = +(document.querySelector('.price-window').value)
     },
@@ -172,7 +336,21 @@ export default {
   position: relative;
   border: 1px solid rgb(219, 219, 219);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  .clear-filter {
+    color: red;
+    cursor: pointer;
+    text-align: right;
+    position: relative;
+    bottom: 0;
+    margin: 5px;  
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   .filter__wrapper {
     width: 90%;
@@ -187,7 +365,7 @@ export default {
         padding-left: 5px;
       }
     }
-    
+
     .filter__by-price {
       position: relative;
       width: 70%;
@@ -203,6 +381,37 @@ export default {
         text-indent: 5px;
         outline: none;
 
+      }
+    }
+
+    .filter__by-type {
+      .filter__by-type_type {
+        margin: 5px;
+      }
+    }
+
+    .filter__by-ram {
+
+      .filter__by-ram_ram {
+        margin: 5px;
+      }
+    }
+
+    .filter__by-videocard {
+      .filter__by-videocard_videocard {
+        margin: 5px;
+      }
+    }
+
+    .filter__by-cpu {
+      .filter__by-cpu_cpu {
+        margin: 5px;
+      }
+    }
+
+    .filter__by-country {
+      .filter__by-country_country {
+        margin: 5px;
       }
     }
 
@@ -231,17 +440,19 @@ export default {
         }
       }
     }
+  }
 
-    .clear-filter {
-      color: red;
-      cursor: pointer;
-      text-align: right;
-      position: relative;
-      bottom: 0;
+  .filter__by-screen-diagonal {
 
-      &:hover {
-        text-decoration: underline;
-      }
+    .filter__by-screen-diagonal_diagonal {
+      margin: 5px;
+    }
+  }
+
+  .filter__by-resolution {
+
+    .filter__by-resolution_resolution {
+      margin: 5px;
     }
   }
 }

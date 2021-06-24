@@ -11,6 +11,7 @@
         :price="tv.price"
         :manufacturer="tv.manufacturer"
         :screenDiagonal="tv.screenDiagonal"
+        :resolution="tv.resolution"
       />
     </div>
   </div>

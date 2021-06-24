@@ -1,7 +1,12 @@
 <template>
   <div class="tv-component"
-    v-if="this.$store.state.filtered.models.includes(manufacturer) 
-    || !this.$store.state.filtered.models.length"
+    v-if="(this.$store.state.filtered.models.includes(manufacturer) 
+    || !this.$store.state.filtered.models.length)
+    && (isGreaterPrice || this.$store.state.filtered.price == 0)
+    && (this.$store.state.filtered.diagonals.includes(screenDiagonal) 
+    || !this.$store.state.filtered.diagonals.length)
+    && (this.$store.state.filtered.resolution.includes(resolution)
+    || !this.$store.state.filtered.resolution.length)"
   >
     <div class="tv__img">
       <img :src="img" alt="">  
@@ -21,7 +26,8 @@ export default {
     manufacturer: String,
     price: String,
     model: String,
-    img: String
+    img: String,
+    resolution: String
   },
   methods: {
     addToBasket() {
@@ -34,6 +40,11 @@ export default {
       ? this.$store.state.basket.push(data)
       : null
       this.$store.state.basket.map((e, i)=> e.index = i)
+    }
+  },
+  computed: {
+    isGreaterPrice() {
+      return +this.$store.state.filtered.price >= +this.price.split(' ').join('')
     }
   }
 }
