@@ -61,7 +61,7 @@ export default {
         let data = {
           id: this.id,
           img: this.img,
-          info: this.model,
+          model: this.model,
           price: this.price,
           videoCard: this.videoCard,
           cpu: this.cpu,

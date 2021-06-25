@@ -1,15 +1,50 @@
 <template>
   <div class="modal__wrapper" @click="closeModal">
-    <div class="modal">
+    <div class="modal" v-if="defineSection() == 'Smartphones'">
       <div class="modal__img">
         <img :src="img" alt="">
       </div>
       <div class="modal__info">
         <h2>{{ info }}</h2>
         <ul>
-          <li>Manufacturer {{ manufacturer }}</li>
+          <li>Manufacturer: {{ manufacturer }}</li>
           <li>Memory: {{ memory }}gb</li>
           <li>Display size: {{ size }}</li>
+        </ul>
+      </div>
+      <div class="modal__spans">
+          <span class="price">{{ price }} ₴</span>
+          <span class="basket" @click="addToBasket"></span>
+        </div>
+    </div>
+    <div class="modal" v-if="defineSection() == 'TV'">
+      <div class="modal__img">
+        <img :src="img" alt="">
+      </div>
+      <div class="modal__info">
+        <h2>{{ info }}</h2>
+        <ul>
+          <li>Manufacturer: {{ manufacturer }}</li>
+          <li>Resolution: {{ resolution }}</li>
+        </ul>
+      </div>
+      <div class="modal__spans">
+          <span class="price">{{ price }} ₴</span>
+          <span class="basket" @click="addToBasket"></span>
+        </div>
+    </div>
+    <div class="modal" v-if="defineSection() == 'Computers'">
+      <div class="modal__img">
+        <img :src="img" alt="">
+      </div>
+      <div class="modal__info">
+        <h2>{{ model }}</h2>
+        <ul>
+          <li>Manufacturer: {{ country }}</li>
+          <li>RAM: {{ ram }}gb</li>
+          <li>Video card: {{ videoCard }}</li>
+          <li>CPU: {{ cpu }}</li>
+          <li>Type: {{ type }}</li>
         </ul>
       </div>
       <div class="modal__spans">
@@ -23,14 +58,24 @@
 <script>
 export default {
   props: {
-    info: String,
+    info: String, // Smartphones
     price: String,
     img: String,
     size: String,
     memory: String,
-    manufacturer: String
+    manufacturer: String,
+    videoCard: String, // Computers
+    cpu: String,
+    country: String,
+    type: String,
+    ram: Number,
+    model: String,
+    resolution: String, // TV
   },
   methods: {
+    defineSection() {
+      return this.$store.state.filter
+    },
     closeModal(e) {
       e.target.className == 'modal__wrapper'
       ? this.$emit('close-modal')
@@ -48,6 +93,9 @@ export default {
       this.$store.state.basket.map((e, i)=> e.index = i)
     }
   },
+  mouted() {
+    this.defineSection()
+  }
 }
 </script>
 
@@ -75,7 +123,7 @@ export default {
       position: relative;
 
       img {
-        width: 340px;
+        height: 80%;
       }
     }
 
@@ -99,6 +147,7 @@ export default {
         background: none;
         background-image: url(../assets/basket.svg);
         background-repeat: no-repeat;
+        background-position: center;
         width: 20px;
         height: 20px;
         cursor: pointer;

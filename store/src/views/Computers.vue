@@ -22,7 +22,7 @@
       @close-modal="closeModal"
       :img="this.modalComputersData.img" 
       :price="this.modalComputersData.price" 
-      :info="this.modalComputersData.model" 
+      :model="this.modalComputersData.model" 
       :ram="this.modalComputersData.ram"
       :cpu="this.modalComputersData.cpu"
       :country="this.modalComputersData.country"
@@ -54,10 +54,10 @@ export default {
       this.modalComputersData = data
     },
     closeModal() {
-      this.modalSmartphoneData = {
+      this.modalComputersData = {
         id: null,
         img: null,
-        info: null,
+        model: null,
         price: null,
         videoCard: null,
         cpu: null,
@@ -73,7 +73,7 @@ export default {
       modalComputersData: {
         id: null,
         img: null,
-        info: null,
+        model: null,
         price: null,
         videoCard: null,
         cpu: null,

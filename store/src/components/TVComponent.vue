@@ -1,5 +1,6 @@
 <template>
   <div class="tv-component"
+    @click="showModal"
     v-if="(this.$store.state.filtered.models.includes(manufacturer) 
     || !this.$store.state.filtered.models.length)
     && (isGreaterPrice || this.$store.state.filtered.price == 0)
@@ -40,6 +41,20 @@ export default {
       ? this.$store.state.basket.push(data)
       : null
       this.$store.state.basket.map((e, i)=> e.index = i)
+    },
+    showModal(e) {
+      if(e.target.className !== 'tv__basket') {
+        let data = {
+          id: this.id,
+          img: this.img,
+          model: this.model,
+          price: this.price,
+          manufacturer: this.manufacturer,
+          resolution: this.resolution,
+          show: true
+        }
+        this.$emit('show-modal', data)
+      }       
     }
   },
   computed: {

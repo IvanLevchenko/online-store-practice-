@@ -4,7 +4,9 @@
       <FilterComponent/>
     </div>
     <div class="tv__body">
-      <TVComponent v-for="tv of getAllTVs" 
+      <TVComponent 
+        @show-modal="showModal"
+        v-for="tv of getAllTVs" 
         :key="tv.id"
         :img="tv.img"
         :model="tv.model"
@@ -14,23 +16,63 @@
         :resolution="tv.resolution"
       />
     </div>
+    <ComponentModal
+      @close-modal="closeModal"
+      :img="this.modalTVData.img"
+      :info="this.modalTVData.model"
+      :price="this.modalTVData.price"
+      :manufacturer="this.modalTVData.manufacturer"
+      :resolution="this.modalTVData.resolution"
+      v-if="this.modalTVData.show"
+    />
   </div>
 </template>
 
 <script>
 import FilterComponent from '../components/Filter.vue'
 import TVComponent from '../components/TVComponent.vue'
+import ComponentModal from '../components/ComponentModal.vue'
 
 export default {
   components: {
     FilterComponent,
-    TVComponent
+    TVComponent,
+    ComponentModal
   },
   computed: {
     getAllTVs() {
       return this.$store.state.TVData
     }
-  }
+  },
+  data() {
+    return {
+      modalTVData: {
+        id: null,                               
+        img: null,
+        model: null,
+        price: null,
+        manufacturer: null,
+        resolution: null,
+        show: false
+      }
+    }
+  },
+  methods: {
+    showModal(data) {
+      this.modalTVData = data
+    },
+    closeModal() {
+      this.modalTVData = {
+        id: null,
+        img: null,
+        model: null,
+        price: null,
+        manufacturer: null,
+        resolution: null,
+        show: false
+      }
+    }
+  },
 }
 </script>
 
