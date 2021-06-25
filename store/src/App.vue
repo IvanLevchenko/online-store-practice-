@@ -20,13 +20,14 @@
         </div>
       </div>
     </div>
-
     <router-view/>
   </div>
 </template>
 
 <script>
 import HeaderComponent from './components/HeaderComponent'
+// import store from './store/index'
+import router from './router/index'
 
 export default {
   components: {
@@ -38,10 +39,8 @@ export default {
       let wrapper = document.querySelector('.basket-wrapper')
 
       wrapper.style.visibility !== 'visible'
-      ? wrapper.style.visibility = 'visible'
-      : setTimeout(() => {
-          wrapper.style.visibility = 'hidden'
-        }, 700)
+      ? (wrapper.style.visibility = 'visible', wrapper.style.backgroundColor = 'rgba(0, 0, 0, 0.5)')
+      : (wrapper.style.visibility = 'hidden', wrapper.style.backgroundColor = 'rgba(0, 0, 0, 0)')
 
       basket.style.right == '' || basket.style.right == '-402px'
       ? basket.style.right = '0px'
@@ -53,12 +52,11 @@ export default {
       let wrapper = document.querySelector('.basket-wrapper')
 
       e.target.className == 'basket-wrapper' 
-      ? (setTimeout(() => {
-          wrapper.style.visibility = 'hidden'
-        }, 700),
-        basket.style.right = '-402px'
-        )
+      ? (wrapper.style.visibility = 'hidden', 
+      wrapper.style.backgroundColor = 'rgba(0, 0, 0, 0)',
+      basket.style.right = '-402px')
       : null
+
     },
     deleteBasketItem(e) {
       this.$store.state.basket = this.$store.state.basket.slice(0, e.target.id)
@@ -69,7 +67,20 @@ export default {
       return this.$store.state.basket
     }
   },
-  
+  watch: {
+    '$route': () => {
+      // for(let [key, value] of Object.entries(store.state.filtered)) {
+      //   value
+      //   if(typeof key == 'number') {
+      //     value = 0
+      //   } else {
+      //     value = [] 
+      //   }
+      // }
+      console.log(router)
+      router.go(0)
+    }
+  }
 }
 </script>
 
@@ -90,10 +101,11 @@ html {
   .basket-wrapper {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0);
     visibility: hidden;
     position: absolute;
     z-index: 50;
+    transition: 0.7s; 
 
     .basket {
       width: 400px;

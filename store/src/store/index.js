@@ -91,10 +91,7 @@ export default new Vuex.Store({
     },
     basket: []
   },
-  mutations: {
-    mutateManufacturers(state, data) {
-      state.manufacturers = data
-    },
+  mutations: {  
     mutateFilterByModels(state, data) {
       let id
       if(!state.filtered.models.includes(data)) {
@@ -205,11 +202,6 @@ export default new Vuex.Store({
     }
    },
   actions: {
-    async fillManufacturersAction(ctx) {
-      let data = [] 
-      this.state.smartphonesData.forEach(i => !data.includes(i.manufacturer) ? data.push(i.manufacturer) : null)
-      ctx.commit('mutateManufacturers', data)
-    },
     filterByModels(ctx, data) {
       ctx.commit('mutateFilterByModels', data)
     },
@@ -251,8 +243,12 @@ export default new Vuex.Store({
     getStateHomePageProducts(state) {
       return state.homePageProducts
     },
-    getAllManufacturers(state) {
-      return state.manufacturers
+    getSmartphoneManufacturers(state) {
+      let manufacturers = new Set()
+
+      state.smartphonesData.forEach(e => manufacturers.add(e.manufacturer))
+
+      return manufacturers
     },
     getSmartphonePrices(state) {
       let min = 0

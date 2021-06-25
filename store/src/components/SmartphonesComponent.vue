@@ -67,7 +67,7 @@ export default {
         this.$emit('show-modal', data)
       }
     }
-  }
+  },
 }
 </script>
 

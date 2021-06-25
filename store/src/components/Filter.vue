@@ -4,7 +4,7 @@
       <div class="filter__by-model">
         <h4>Model:</h4>
         <p class="filter__by-model_model"
-        v-for="model of getAllManufacturers"
+        v-for="model of getSmartphoneManufacturers"
         :key="model.id"
         > {{ model }} <input type="checkbox" @click="filterByModel" :id="'filter-by-model-chckbx_' + model"></p>
       </div>
@@ -190,8 +190,8 @@ export default {
     defineFilteredItems() {
       return this.$store.state.filter
     },
-    getAllManufacturers() {
-      return this.$store.getters.getAllManufacturers
+    getSmartphoneManufacturers() {
+      return this.$store.getters.getSmartphoneManufacturers
     },
     getSmartphonePrices() {
       return this.$store.getters.getSmartphonePrices
@@ -297,28 +297,17 @@ export default {
     },
     clearFilters() {
       for(let [key, value] of Object.entries(this.$store.state.filtered)) {
-        console.log(`${key}: ${value}`)
+        value
         if(typeof key == 'number') {
           value = 0
         } else {
           value = [] 
         }
-        console.log(`${key}: ${value}`)
       }
-      console.log(
-        this.$store.state.filtered
-      )
+      
       this.$router.go(0)
     }
   },
-  watch: {
-    '$route' (to, from) {
-      alert('called it', to, from);
-    }
-  },
-  async mounted() { 
-    await this.$store.dispatch('fillManufacturersAction')
-  }
 }
 </script>
 

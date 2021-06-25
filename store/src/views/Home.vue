@@ -27,7 +27,8 @@ export default {
     clickedPage(e) {
       this.$store.state.filter = e.target.parentNode.className.split(' ')[1]
     }
-  }
+  },
+  
 }
 </script>
 
